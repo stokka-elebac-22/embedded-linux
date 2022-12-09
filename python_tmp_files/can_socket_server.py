@@ -10,14 +10,14 @@ def server_program():
     # get the hostname
     host = "10.0.10.95" #socket.gethostname()
     port = 5000  # initiate port no above 1024
-    server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # get instance
-    # look closely. The bind() function takes tuple as argument
-    server_socket.bind((host, port))  # bind host address and port together
+    server_running = True
 
-    # configure how many client the server can listen simultaneously
-    server_socket.listen(2)
-    conn, address = server_socket.accept()  # accept new connection
-    print("Connection from: " + str(address) + " - Starts listening on CAN bus.")
+    while server_running:
+        server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        server_socket.bind((host, port))
+        server_socket.listen(2)
+        conn, address = server_socket.accept()
+        print("Connection from: " + str(address) + " - Starts listening on CAN bus.")
 
     with can.Bus(interface='socketcan', channel='can0', receive_own_messages=True) as bus:
         try:
@@ -29,7 +29,7 @@ def server_program():
                     my_bytes = bytearray()
                     my_bytes.append(msg.channel)
                     my_bytes.append(msg.data)
-                    conn.send(my_bytes)
+                    # conn.send(my_bytes)
                     # conn.send("{}".format(msg).encode())
                 # send a message
                 # message = can.Message(arbitration_id=5, is_extended_id=False, data=[0x11, 0x22, 0x33])
