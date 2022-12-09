@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "can-socket-server"
+version = "0.1.0"
+description = "CAN bus Socket communication server"
+authors = ["Asbjørn Stokka <asbjorn@maxit-as.com>"]
+readme = "README.md"
+packages = [{include = "can_socket_server"}]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+python-can = "^4.1.0"
+pytest = "^7.2.0"
+hypothesis = "^6.60.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
